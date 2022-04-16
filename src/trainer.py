@@ -86,7 +86,7 @@ class ABAETrainer:
                 self.save_model()
                 for i, aspect in enumerate(self.model.get_aspect_words(list(self.vocab.keys()), topn=50)):
                     self.root_logger.info("Loss improved....")
-                    self.root_logger.info(i + 1, " ".join([a for a in aspect]))
+                    self.root_logger.info("|".join(aspect))
                     aspect_file.write("Aspect %d:\n" % (i + 1))
                     aspect_file.write("|".join(aspect) + '\n')
 
