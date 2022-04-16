@@ -1,0 +1,5 @@
+2022-04-16 09:42:56,925 [MainThread  ] [INFO ]  9000/9003 word vectors initialized (hit rate: 99.97%)
+2022-04-16 09:43:00,215 [MainThread  ] [INFO ]  -----------------------------------
+2022-04-16 09:43:00,215 [MainThread  ] [INFO ]  Epoch 0
+2022-04-16 09:43:00,215 [MainThread  ] [INFO ]  -----------------------------------
+2022-04-16 09:45:11,180 [MainThread  ] [INFO ]  Train loss: 4.001	 Min loss: 10000.000
