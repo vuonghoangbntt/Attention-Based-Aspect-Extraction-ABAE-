@@ -28,11 +28,17 @@ def evaluation_with_F1(model, test_loader, labels, labels_map):
 def load_model(args):
     saved_model = torch.load(args.model_path, map_location='cpu')
     model_params, model_args, vocab = saved_model['model'], saved_model['args'], saved_model['vocab']
-    w2v = W2VEmbReader(os.path.join(model_args.data_path + model_args.domain, 'word2vec'),
+    w2v = W2VEmbReader(os.path.join(model_args.data_path, model_args.domain+'/word2vec'),
                        emb_dim=model_args.embedding_size)
+
+    emb_weight = torch.nn.init.kaiming_uniform_(
+        torch.zeros((model_args.vocab_size + 3, model_args.embedding_size))).numpy()
+    emb_weight = w2v.get_emb_matrix_given_vocab(vocab, emb_weight)
+
     model = ABAE(wv_dim=model_args.embedding_size, asp_count=model_args.aspect_count, ortho_reg=model_args.ortho_reg,
                  maxlen=model_args.maxlen,
-                 init_aspects_matrix=w2v.get_aspect_matrix(model_args.aspect_count))
+                 init_aspects_matrix=w2v.get_aspect_matrix(model_args.aspect_count),
+                 init_embeddings_weight=emb_weight)
     model.load_state_dict(model_params)
     return model, w2v, model_args, vocab
 
@@ -55,6 +61,8 @@ def do_eval(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_path", type=str, required=True, help="Model path to load")
+    parser.add_argument("--output_file", type=str, default="output.txt")
+    parser.add_argument("--batch_size", type=str, default=32)
 
     args = parser.parse_args()
     do_eval(args)

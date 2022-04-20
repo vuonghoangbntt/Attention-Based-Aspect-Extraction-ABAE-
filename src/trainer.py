@@ -29,7 +29,6 @@ class ABAETrainer:
         if not os.path.exists(self.save_path):
             os.makedirs(self.save_path)
         self.root_logger = logging.getLogger()
-        self.root_logger = logging.getLogger()
         self.root_logger.setLevel(logging.INFO)
         reset_logger(self.root_logger)
         log_formatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
@@ -38,7 +37,7 @@ class ABAETrainer:
         file_handler.setFormatter(log_formatter)
         self.root_logger.addHandler(file_handler)
 
-        ### Create model
+        # Create model
         emb_weight = torch.nn.init.kaiming_uniform_(
             torch.zeros((self.args.vocab_size + 3, self.args.embedding_size))).numpy()
         emb_weight = w2v.get_emb_matrix_given_vocab(vocab, emb_weight)
